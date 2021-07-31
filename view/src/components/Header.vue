@@ -30,6 +30,8 @@ onBeforeUnmount(()=>{
   padding: 16px 24px;
   justify-content: space-between;
   align-items: center;
+  -webkit-user-select: none;
+  -webkit-app-region: drag;
 }
 .main-header-tip {
   font-size: 36px;
