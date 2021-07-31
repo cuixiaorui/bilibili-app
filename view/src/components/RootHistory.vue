@@ -7,7 +7,7 @@
         :key="item.check_info.ts"
       >
         <dt class="chat-history__item-name">{{ item.nickname }}</dt>
-        <dd class="chat-history__item-text">{{ item.text }}</dd>
+        <dd class="chat-history__item-text">: {{ item.text }}</dd>
         <dd class="chat-history__item-time">{{ item.timeline }}</dd>
       </dl>
     </transition-group>
@@ -27,7 +27,7 @@
 <script setup>
 import axios from "axios";
 import { ref } from "vue";
-import { splitTime, addAvatar } from '../utils'
+import { splitTime, addAvatar, getNewMessages } from '../utils'
 
 const LIMIT_SIZE = 15;
 
@@ -48,7 +48,10 @@ const messages = ref([]);
 // 1秒请求一次
 setInterval(async () => {
   const { data } = await axios.get("/api/room_history");
-  messages.value.push(...data.data.map(splitTime).map(addAvatar));
+  const msgList = getNewMessages(data.data)
+    .map(splitTime)
+    .map(addAvatar);
+  messages.value.push(...msgList);
   messages.value.slice(-LIMIT_SIZE);
 }, 1000);
 </script>
@@ -63,15 +66,19 @@ setInterval(async () => {
   font-size: 14px;
 }
 .chat-history__item-name {
-  width: 25%;
+  width: 30%;
   color: #5CAFAC;
   text-align: right;
   padding-left: 0.5em;
+  word-break: keep-all;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 .chat-history__item-text {
   flex: 1;
   text-align: left;
-  margin-left: 10px;
+  margin-left: 6px;
   font-size: 16px;
   font-weight: 500;
 }

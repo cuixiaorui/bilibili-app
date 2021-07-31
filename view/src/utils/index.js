@@ -37,6 +37,21 @@ export const splitTime = (v) => {
   return v;
 }
 export const addAvatar = v => {
-  v.nickname = `${v.nickname} ${randomAavatar()}`;
+  v.nickname = `${randomAavatar()} ${v.nickname}`;
   return v;
+}
+
+let lastTs = 0;
+export function getNewMessages(rooms) {
+  // 1. 记录最后一个时间戳
+  // 2. 后续过来数据的话，只返回比这个时间戳大的数据
+  if(!rooms.length) return rooms;
+
+  let result = rooms.filter((item) => {
+    return item.check_info.ts > lastTs;
+  });
+
+  lastTs = rooms[rooms.length - 1].check_info.ts;
+
+  return result;
 }
