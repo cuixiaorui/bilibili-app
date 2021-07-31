@@ -10,8 +10,8 @@ let mockData = [
     },
   },
   {
-    text: "超人正2正超人",
-    nickname: "超人正2正",
+    text: "超人",
+    nickname: "超1",
     timeline: "2021-07-30 22:53:59",
     check_info: {
       ts: 1627652878,
@@ -19,7 +19,7 @@ let mockData = [
   },
   {
     text: "123123",
-    nickname: "超正",
+    nickname: "vipsasdf12312312",
     timeline: "2021-07-30 22:53:59",
     check_info: {
       ts: 1627652978,
@@ -30,10 +30,10 @@ let mockData = [
 export function randomMsg(count) {
   let res = [];
   while (count--) {
-    const text = Math.random().toString(16).substring(2);
+    const text = Math.random().toString(16).substring(2, Math.random()*10+5);
     const msg = {
       text,
-      nickname: "超正" + Math.random().toString(16).substring(3, 8),
+      nickname: "vip" + Math.random().toString(16).substring(2, Math.random()*10+3),
       timeline: "2021-07-30 22:53:59",
       check_info: {
         ts: new Date().getTime()+ Math.random()*100,

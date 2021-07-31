@@ -23,6 +23,15 @@ import RootHistory from "./components/RootHistory.vue";
   color: #2c3e50;
 }
 
-body { background: #282D3F; color:#8651C9; margin: 0; }
-* { box-sizing: border-box;}
+body { 
+  background: #282D3F; 
+  color:#8651C9; 
+  margin: 0; 
+}
+* { 
+  box-sizing: border-box;
+}
+button {
+  -webkit-app-region: no-drag;
+}
 </style>
