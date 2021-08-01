@@ -40,6 +40,7 @@ function speechBarrages() {
     list.push(...barrages);
     for (const barrage of list) {
       list.shift();
+      window.scrollTo(0, document.body.scrollHeight);
       await textToSpeech(barrage.text);
     }
   };
@@ -57,7 +58,7 @@ function speechBarrages() {
 }
 .chat-history__item-name {
   width: 30%;
-  color: #5CAFAC;
+  color: #5cafac;
   text-align: right;
   padding-left: 0.5em;
   word-break: keep-all;
