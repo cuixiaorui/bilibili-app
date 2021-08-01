@@ -5,12 +5,12 @@ module.exports = async (ctx) => {
     "https://api.live.bilibili.com/xlive/web-room/v1/dM/gethistory?roomid=21877310"
   );
 
-  const result = getNewMessages(data.data.room);
+  // const result = getNewMessages(data.data.room);
 
   ctx.body = {
     state: 1,
     msg: "success",
-    data: result,
+    data: data.data.room,
   };
 };
 
