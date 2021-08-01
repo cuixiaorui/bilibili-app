@@ -11,7 +11,7 @@
         <dd class="chat-history__item-time">{{ item.timeline }}</dd>
       </dl>
     </transition-group>
-    <div v-if="!messages.length" style="padding: 30px 0;">暂无数据</div>
+    <div v-if="!messages.length" style="padding: 30px 0">暂无数据</div>
 
     <!-- 测试 -->
     <!-- <div>
@@ -27,7 +27,8 @@
 <script setup>
 import axios from "axios";
 import { ref } from "vue";
-import { splitTime, addAvatar } from '../utils'
+import { splitTime, addAvatar } from "../utils";
+import { textToSpeech } from "../utils/textToSpeech";
 
 const LIMIT_SIZE = 15;
 
@@ -45,12 +46,30 @@ const LIMIT_SIZE = 15;
 // 测试 ---------- E
 
 const messages = ref([]);
+const speechBarrageHandler = speechBarrages();
 // 1秒请求一次
 setInterval(async () => {
   const { data } = await axios.get("/api/room_history");
-  messages.value.push(...data.data.map(splitTime).map(addAvatar));
+  // const info = data.data.map(splitTime).map(addAvatar)
+  // console.log(info)
+  // textToSpeech("嘿嘿嘿")
+  const barrages = data.data.map(splitTime).map(addAvatar);
+  // speechBarrages(barrages);
+  speechBarrageHandler(barrages);
+  messages.value.push(...barrages);
   messages.value.slice(-LIMIT_SIZE);
 }, 1000);
+
+function speechBarrages() {
+  const list = [];
+  return async (barrages) => {
+    list.push(...barrages);
+    for (const barrage of list) {
+      list.shift();
+      await textToSpeech(barrage.text);
+    }
+  };
+}
 </script>
 
 <style>
@@ -64,7 +83,7 @@ setInterval(async () => {
 }
 .chat-history__item-name {
   width: 25%;
-  color: #5CAFAC;
+  color: #5cafac;
   text-align: right;
   padding-left: 0.5em;
 }
@@ -78,8 +97,8 @@ setInterval(async () => {
 .chat-history__item-time {
   display: none;
   width: 100px;
-  color: #6B729D;
-  opacity: .6;
+  color: #6b729d;
+  opacity: 0.6;
   text-align: right;
   padding-right: 1em;
 }
@@ -103,5 +122,5 @@ setInterval(async () => {
   .chat-history__item-time {
     display: block;
   }
-} 
+}
 </style>
