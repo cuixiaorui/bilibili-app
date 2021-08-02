@@ -5,10 +5,9 @@ function createWindow() {
     width: 390,
     height: 700,
     frame: false,
-    //     webPreferences: {
-    //       webSecurity: false,
-    //     },
   });
+  win.setOpacity(0.5);
+  win.setAlwaysOnTop(true)
 
   //   const URL = app.isPackaged
   //     ? `file://${join(__dirname, "../render/index.html")}` // vite 构建后的静态文件地址

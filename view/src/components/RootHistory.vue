@@ -26,12 +26,19 @@ const LIMIT_SIZE = 15;
 const messages = ref([]);
 const speechBarrageHandler = speechBarrages();
 // 1秒请求一次
+let isFirst = true;
 setInterval(async () => {
   const { data } = await axios.get("/api/room_history");
   const barrages = getNewMessages(data.data).map(splitTime).map(addAvatar);
-  speechBarrageHandler(barrages);
+  console.log(...barrages);
+  if (!isFirst) {
+    speechBarrageHandler(barrages);
+  }
+
+  isFirst = false;
   messages.value.push(...barrages);
   messages.value.slice(-LIMIT_SIZE);
+  window.scrollTo(0, document.body.scrollHeight);
 }, 1000);
 
 function speechBarrages() {
@@ -40,7 +47,6 @@ function speechBarrages() {
     list.push(...barrages);
     for (const barrage of list) {
       list.shift();
-      window.scrollTo(0, document.body.scrollHeight);
       await textToSpeech(barrage.text);
     }
   };
