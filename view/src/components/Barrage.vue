@@ -16,41 +16,30 @@
 </template>
 
 <script setup>
-import axios from "axios";
 import { ref } from "vue";
-import { splitTime, addAvatar, getNewMessages } from "../utils";
-import { textToSpeech } from "../utils/textToSpeech";
+import { getBarrages, speechContents } from "./Barrage.js";
 
 const LIMIT_SIZE = 15;
-
+const REQUEST_INTERVAL = 1000;
 const messages = ref([]);
-const speechBarrageHandler = speechBarrages();
-// 1秒请求一次
-let isFirst = true;
-setInterval(async () => {
-  const { data } = await axios.get("/api/room_history");
-  const barrages = getNewMessages(data.data).map(splitTime).map(addAvatar);
-  console.log(...barrages);
-  if (!isFirst) {
-    speechBarrageHandler(barrages);
+
+function viewToBottom() {
+  window.scrollTo(0, document.body.scrollHeight);
+}
+
+function useBarrages() {
+  async function handleBarrages() {
+    const barrages = await getBarrages();
+    speechContents(barrages);
+    messages.value.push(...barrages);
+    messages.value.slice(-LIMIT_SIZE);
+    viewToBottom();
   }
 
-  isFirst = false;
-  messages.value.push(...barrages);
-  messages.value.slice(-LIMIT_SIZE);
-  window.scrollTo(0, document.body.scrollHeight);
-}, 1000);
-
-function speechBarrages() {
-  const list = [];
-  return async (barrages) => {
-    list.push(...barrages);
-    for (const barrage of list) {
-      list.shift();
-      await textToSpeech(barrage.text);
-    }
-  };
+  setInterval(handleBarrages, REQUEST_INTERVAL);
 }
+
+useBarrages();
 </script>
 
 <style>
