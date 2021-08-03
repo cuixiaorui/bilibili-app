@@ -26,6 +26,9 @@ onBeforeUnmount(()=>{
 
 <style>
 .main-header {
+  position: sticky;
+  background: #282D3F;
+  top: 0;
   display: flex;
   padding: 16px 24px;
   justify-content: space-between;
