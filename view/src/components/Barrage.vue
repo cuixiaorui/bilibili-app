@@ -47,6 +47,7 @@ useBarrages();
   display: flex;
   align-items: flex-start;
   margin: 1em 0;
+  padding-right: 1em;
   transition: all 0.8s ease, color 3s ease-out;
   color: #938da1;
   font-size: 14px;
@@ -74,7 +75,6 @@ useBarrages();
   color: #6b729d;
   opacity: 0.6;
   text-align: right;
-  padding-right: 1em;
 }
 
 .list-enter-from {
@@ -94,7 +94,7 @@ useBarrages();
 
 @media (min-width: 400px) {
   .chat-history__item-time {
-    display: block;
+    display: contents;
   }
 }
 </style>
